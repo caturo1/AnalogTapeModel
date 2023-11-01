@@ -1,0 +1,22 @@
+# This CITATION.cff file was generated with cffinit.
+# Visit https://bit.ly/cffinit to generate yours today!
+
+cff-version: 1.2.0
+title: ChowTape Model
+message: >-
+  If you use this software, please cite it using the
+  metadata from this file.
+type: software
+authors:
+  - given-names: Jatin
+    family-names: Chowdhury
+    email: jatin@ccrma.stanford.edu
+repository-code: 'https://github.com/jatinchowdhury18/AnalogTapeModel'
+url: 'https://chowdsp.com/products.html#tape'
+abstract: >-
+  Chow Tape Model is a digital emulation of a reel-to-reel
+  analog tape machine.
+license: GPL-3.0
+commit: '6107e95'
+version: 2.11.3
+date-released: '2023-10-25'

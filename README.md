@@ -3,6 +3,8 @@
 ![CI](https://github.com/jatinchowdhury18/AnalogTapeModel/workflows/CI/badge.svg)
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-brightgreen.svg)](https://www.gnu.org/licenses/gpl-3.0)
 [![Downloads](https://img.shields.io/github/downloads/jatinchowdhury18/AnalogTapeModel/total)](https://somsubhra.github.io/github-release-stats/?username=jatinchowdhury18&repository=AnalogTapeModel&page=1&per_page=30)
+[![fair-software.eu](https://img.shields.io/badge/fair--software.eu-%E2%97%8F%20%20%E2%97%8F%20%20%E2%97%8B%20%20%E2%97%8F%20%20%E2%97%8B-orange)](https://fair-software.eu)
+
 
 CHOW Tape Model is a physical model of an analog tape machine,
 implemented as an audio plugin. The physical model is described
@@ -62,8 +64,11 @@ information, see this [issue](https://github.com/jatinchowdhury18/AnalogTapeMode
 
 Contributions are most welcome! There are many ways to contribute to this 
 project, for both programmers and non-programmers. For more information,
-see the
-[contributing guidelines](https://github.com/jatinchowdhury18/AnalogTapeModel/blob/master/CONTRIBUTING.md).
+see the [contributing guidelines](https://github.com/jatinchowdhury18/AnalogTapeModel/blob/master/CONTRIBUTING.md). If you decide to contribute, please adhere to our [Code of Conduct](./CONDUCT.md)
+
+## Changelog
+
+For a brief overview of notable changes between versions, please view the [Changelog](./CHANGELOG.md).
 
 ## Credits
 
