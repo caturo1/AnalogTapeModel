@@ -33,7 +33,7 @@ const String isStereoTag = "plugin:is_stereo";
 const String inGainTag = "ingain";
 const String outGainTag = "outgain";
 const String dryWetTag = "drywet";
-} // namespace
+}  // namespace
 
 //==============================================================================
 ChowtapeModelAudioProcessor::ChowtapeModelAudioProcessor() : inputFilters (vts),
@@ -65,13 +65,14 @@ ChowtapeModelAudioProcessor::ChowtapeModelAudioProcessor() : inputFilters (vts),
     LookAndFeel::setDefaultLookAndFeel (&myLNF);
 
     PluginHostType hostType;
-    if (hostType.isRenoise()) // Renoise has different gain staging, so we handle that here
+    if (hostType.isRenoise())   // Renoise has different gain staging,
+                                // so we handle that here
         toneControl.setDBScale (12.0f);
     else
         toneControl.setDBScale (18.0f);
 }
 
-void ChowtapeModelAudioProcessor::addParameters (Parameters& params)
+void ChowtapeModelAudioProcessor::addParameters (const Parameters& params)
 {
     using namespace chowdsp::ParamUtils;
     createGainDBParameter (params, inGainTag, "Input Gain", -30.0f, 6.0f, 0.0f);
@@ -103,9 +104,10 @@ void ChowtapeModelAudioProcessor::prepareToPlay (double sampleRate, int samplesP
     hysteresis.prepareToPlay (sampleRate, samplesPerBlock, numChannels);
     degrade.prepareToPlay (sampleRate, samplesPerBlock, numChannels);
     chewer.prepare (sampleRate, samplesPerBlock, numChannels);
-    lossFilter.prepare ((float) sampleRate, samplesPerBlock, numChannels);
+    lossFilter.prepare (static_cast<float>(sampleRate), samplesPerBlock, numChannels);
 
-    dryDelay.prepare ({ sampleRate, (uint32) samplesPerBlock, (uint32) numChannels });
+    dryDelay.prepare ({ sampleRate, static_cast<uint32>(samplesPerBlock),
+        static_cast<uint32>(numChannels) });
     dryDelay.setDelay (calcLatencySamples());
 
     flutter.prepareToPlay (sampleRate, samplesPerBlock, numChannels);
@@ -129,7 +131,8 @@ void ChowtapeModelAudioProcessor::releaseResources()
 
 float ChowtapeModelAudioProcessor::calcLatencySamples() const noexcept
 {
-    return lossFilter.getLatencySamples() + hysteresis.getLatencySamples() + compressionProcessor.getLatencySamples();
+    return lossFilter.getLatencySamples() + hysteresis.getLatencySamples()
+        + compressionProcessor.getLatencySamples();
 }
 
 bool ChowtapeModelAudioProcessor::isBusesLayoutSupported (const BusesLayout& layouts) const
@@ -208,7 +211,7 @@ void ChowtapeModelAudioProcessor::latencyCompensation()
     // line interpolation freq. response issues
     if (dryWet.getDryWet() < 0.15f)
     {
-        dryDelay.setDelay ((float) latencySamp);
+        dryDelay.setDelay (static_cast<float>(latencySamp));
     }
     else
     {
@@ -232,14 +235,17 @@ AudioProcessorEditor* ChowtapeModelAudioProcessor::createEditor()
     builder->registerFactory ("TitleComp", &TitleItem::factory);
     builder->registerFactory ("MixGroupViz", &MixGroupVizItem::factory);
     builder->registerFactory ("PowerButton", &PowerButtonItem::factory);
-    builder->registerFactory ("OversamplingMenu", &chowdsp::OversamplingMenuItem<ChowtapeModelAudioProcessor, OversamplingMenu>::factory);
+    builder->registerFactory ("OversamplingMenu", &chowdsp::OversamplingMenuItem<ChowtapeModelAudioProcessor,
+                                OversamplingMenu>::factory);
     builder->registerFactory ("SettingsButton", &SettingsButtonItem::factory);
     builder->registerFactory ("InfoComp", &chowdsp::InfoItem<ChowtapeModelAudioProcessor>::factory);
 
-    builder->registerFactory ("FlutterMenu", [] (foleys::MagicGUIBuilder& b, const ValueTree& node) -> std::unique_ptr<foleys::GuiItem>
+    builder->registerFactory ("FlutterMenu", [] (foleys::MagicGUIBuilder& b,
+                                const ValueTree& node) -> std::unique_ptr<foleys::GuiItem>
                               { return std::make_unique<WowFlutterMenuItem> (b, node, "Flutter"); });
 
-    builder->registerFactory ("WowMenu", [] (foleys::MagicGUIBuilder& b, const ValueTree& node) -> std::unique_ptr<foleys::GuiItem>
+    builder->registerFactory ("WowMenu", [] (foleys::MagicGUIBuilder& b,
+                                            const ValueTree& node) -> std::unique_ptr<foleys::GuiItem>
                               { return std::make_unique<WowFlutterMenuItem> (b, node, "Wow"); });
 
     builder->registerJUCELookAndFeels();
@@ -268,9 +274,11 @@ AudioProcessorEditor* ChowtapeModelAudioProcessor::createEditor()
 #if JUCE_IOS
     builder->registerFactory ("ScrollView", &ScrollView::factory);
     builder->registerFactory ("TipJar", &TipJarItem::factory);
-    auto* editor = new foleys::MagicPluginEditor (magicState, BinaryData::gui_ios_xml, BinaryData::gui_ios_xmlSize, std::move (builder));
+    auto* editor = new foleys::MagicPluginEditor (magicState,
+                BinaryData::gui_ios_xml, BinaryData::gui_ios_xmlSize, std::move (builder));
 #else
-    auto* editor = new foleys::MagicPluginEditor (magicState, BinaryData::gui_xml, BinaryData::gui_xmlSize, std::move (builder));
+    auto* editor = new foleys::MagicPluginEditor (magicState, BinaryData::gui_xml,
+                    BinaryData::gui_xmlSize, std::move (builder));
 #endif
 
     onOffManager.setOnOffForNewEditor (editor);
@@ -315,7 +323,7 @@ void ChowtapeModelAudioProcessor::setStateInformation (const void* data, int siz
     if (xmlState->hasAttribute ("version"))
     {
         auto* vtsXml = xmlState->getChildByName (vts.state.getType());
-        if (vtsXml == nullptr) // invalid ValueTreeState
+        if (vtsXml == nullptr)  // invalid ValueTreeState
             return;
 
         presetManager->loadXmlState (xmlState->getChildByName (chowdsp::PresetManager::presetStateTag));

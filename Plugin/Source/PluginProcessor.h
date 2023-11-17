@@ -41,7 +41,7 @@ class ChowtapeModelAudioProcessor : public chowdsp::PluginBase<ChowtapeModelAudi
 public:
     ChowtapeModelAudioProcessor();
 
-    static void addParameters (Parameters& params);
+    static void addParameters (const Parameters& params);
 
     void prepareToPlay (double sampleRate, int samplesPerBlock) override;
     void releaseResources() override;

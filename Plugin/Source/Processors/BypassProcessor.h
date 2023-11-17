@@ -46,18 +46,20 @@ public:
             return;
 
         if (! bufferCopied)
-            return; // parameter was changed in the middle of the buffer, let's wait for the next one!
+            return;  // parameter was changed in the middle of the buffer,
+                     // let's wait for the next one!
 
         const auto numChannels = block.getNumChannels();
         const auto numSamples = block.getNumSamples();
 
-        float startGain = ! onOffParam ? 1.0f // fade out
-                                       : 0.0f; // fade in
+        float startGain = ! onOffParam ? 1.0f   // fade out
+                                       : 0.0f;  // fade in
         float endGain = 1.0f - startGain;
 
         block.applyGainRamp (0, numSamples, startGain, endGain);
         for (int ch = 0; ch < numChannels; ++ch)
-            block.addFromWithRamp (ch, 0, fadeBuffer.getReadPointer (ch), numSamples, 1.0f - startGain, 1.0f - endGain);
+            block.addFromWithRamp (ch, 0, fadeBuffer.getReadPointer (ch),
+            numSamples, 1.0f - startGain, 1.0f - endGain);
 
         prevOnOffParam = onOffParam;
         bufferCopied = false;
@@ -71,4 +73,4 @@ private:
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (BypassProcessor)
 };
 
-#endif // BYPASSPROCESSOR_H_INCLUDED
+#endif  // BYPASSPROCESSOR_H_INCLUDED

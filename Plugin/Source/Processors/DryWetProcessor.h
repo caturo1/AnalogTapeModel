@@ -23,14 +23,17 @@ public:
         {
             wetBuffer.applyGain (dryWet);
             for (int ch = 0; ch < wetBuffer.getNumChannels(); ++ch)
-                wetBuffer.addFrom (ch, 0, dryBuffer.getReadPointer (ch), wetBuffer.getNumSamples(), (1.0f - dryWet));
+                wetBuffer.addFrom (ch, 0, dryBuffer.getReadPointer (ch),
+                                    wetBuffer.getNumSamples(), (1.0f - dryWet));
         }
         else
         {
             for (int ch = 0; ch < wetBuffer.getNumChannels(); ++ch)
             {
                 wetBuffer.applyGainRamp (ch, 0, wetBuffer.getNumSamples(), lastDryWet, dryWet);
-                wetBuffer.addFromWithRamp (ch, 0, dryBuffer.getReadPointer (ch), wetBuffer.getNumSamples(), (1.0f - lastDryWet), (1.0f - dryWet));
+                wetBuffer.addFromWithRamp (ch, 0, dryBuffer.getReadPointer (ch),
+                                            wetBuffer.getNumSamples(),
+                                            (1.0f - lastDryWet), (1.0f - dryWet));
             }
 
             lastDryWet = dryWet;
@@ -44,4 +47,4 @@ private:
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (DryWetProcessor)
 };
 
-#endif //DRYWETPROCESSOR_H_INCLUDED
+#endif  // DRYWETPROCESSOR_H_INCLUDED
