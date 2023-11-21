@@ -5,6 +5,7 @@ HysteresisProcessing::HysteresisProcessing()
 {
 }
 
+
 void HysteresisProcessing::reset()
 {
     M_n1 = 0.0;
@@ -15,6 +16,7 @@ void HysteresisProcessing::reset()
     hpState.nearZero = false;
 }
 
+
 void HysteresisProcessing::setSampleRate (double newSR)
 {
     fs = newSR;
@@ -23,9 +25,20 @@ void HysteresisProcessing::setSampleRate (double newSR)
     hysteresisSTN.prepare (newSR);
 }
 
+
+void HysteresisProcessing::applyV1Setting (HysteresisOps::HysteresisState& hpState, float upperLim, float drive)
+{
+    hpState.k = 27.0e3;
+    hpState.c = 1.7e-1;
+    hpState.M_s *= 50000.0;
+    hpState.a = hpState.M_s / (0.01 + 40.0 * drive);
+    upperLim = 100000.0;
+}
+
+
 void HysteresisProcessing::cook (double drive, double width, double sat, bool v1)
 {
-    hysteresisSTN.setParams ((float) sat, (float) width);
+    hysteresisSTN.setParams (static_cast<float>(sat), static_cast<float>(width));
 
     hpState.M_s = 0.5 + 1.5 * (1.0 - sat);
     hpState.a = hpState.M_s / (0.01 + 6.0 * drive);
@@ -33,14 +46,7 @@ void HysteresisProcessing::cook (double drive, double width, double sat, bool v1
     hpState.k = 0.47875;
     upperLim = 20.0;
 
-    if (v1)
-    {
-        hpState.k = 27.0e3;
-        hpState.c = 1.7e-1;
-        hpState.M_s *= 50000.0;
-        hpState.a = hpState.M_s / (0.01 + 40.0 * drive);
-        upperLim = 100000.0;
-    }
+    if (v1) applyV1Setting(hpState, upperLim, drive);
 
     hpState.nc = 1.0 - hpState.c;
     hpState.M_s_oa = hpState.M_s / hpState.a;

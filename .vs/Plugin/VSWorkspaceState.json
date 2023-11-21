@@ -1,0 +1,8 @@
+{
+  "OutputFoldersPerTargetSystem": {
+    "Lokaler Computer": [
+      "Plugin\\out\\build\\x64-Debug",
+      "Plugin\\out\\install\\x64-Debug"
+    ]
+  }
+}

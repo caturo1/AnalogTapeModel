@@ -9,7 +9,6 @@
 */
 
 #pragma once
-
 #include "GUI/MyLNF.h"
 #include "GUI/OnOff/OnOffManager.h"
 #include "GUI/Visualizers/TapeScope.h"

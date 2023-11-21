@@ -8,6 +8,7 @@
   ==============================================================================
 */
 
+#include <memory>
 #include "PluginProcessor.h"
 #include "GUI/ModulatableSlider.h"
 #include "GUI/OnOff/PowerButton.h"

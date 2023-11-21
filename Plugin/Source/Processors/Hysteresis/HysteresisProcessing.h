@@ -88,6 +88,8 @@ private:
         return M_n1 + k2;
     }
 
+    void applyV1Setting (HysteresisOps::HysteresisState& hpState, float upperLim, float drive);
+
     template <typename Float>
     inline Float RK4Solver (Float H, Float H_d) noexcept
     {
